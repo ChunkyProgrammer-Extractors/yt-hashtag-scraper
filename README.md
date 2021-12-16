@@ -19,8 +19,7 @@ Returns a list of objects containing all the information of the hashtag page.
 The parameters object can contain the following options:
 
 ``` 
- tag?:                   String,
- continuation?:         String
+ tag:                   String,
  geoLocation?:          String,
 ```
 
@@ -31,6 +30,18 @@ __geoLocation__ is an optional parameter to change the country (e.g. JP for Japa
 
 __continuation__ is an option parameter to get the next page of the hashtag page you're viewing
 
+**scrape_hashtag_more(_parameters_)**
+Returns the continuation of a hashtag page
+
+The parameters object can have the following options:
+
+```
+    continuation:       String,
+    geoLocation?:       String
+```
+
+__continuation__ is a required parameter that can be got VIA **scrape_hashtag_page(_parameters_)**
+
 ### Example usage
 
 ```javascript
@@ -39,9 +50,9 @@ const parameters = {
 }
 
 ythash.scrape_hashtag_page(parameters).then((data) =>{
-    // console.log(data);
+    console.log(data);
     let continuation = data.continuation
-    ythash.scrape_hashtag_page({ continuation: continuation }).then((data2) => {
+    ythash.scrape_hashtag_more({ continuation: continuation }).then((data2) => {
         console.log(data2)
     })
 }).catch((error)=>{

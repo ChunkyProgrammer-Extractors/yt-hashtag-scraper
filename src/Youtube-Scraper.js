@@ -4,16 +4,18 @@ class YoutubeScraper {
 
     //starting point
     static async scrape_hashtag_page(parameters) {
-        let geoLocation = null
-        let tag = parameters.tag
-        let httpsAgent = parameters.httpsAgent
-        let continuation = parameters.continuation
-        if (parameters) {
-            if ('geoLocation' in parameters) {
-                geoLocation = parameters.geoLocation
-            }
-        }
-        const request_data = await requester.requestHashtagPage({getoLocation: geoLocation, tag: tag, continuation: continuation, httpsAgent: httpsAgent });
+        const geoLocation = parameters.geoLocation ?? null
+        const tag = parameters.tag
+        const httpsAgent = parameters.httpsAgent
+        const request_data = await requester.requestHashtagPage({geoLocation: geoLocation, tag: tag, httpsAgent: httpsAgent });
+        return this.parse_new_html(request_data.data);
+    }
+
+    static async scrape_hashtag_more(parameters) {
+        const geoLocation = parameters.geoLocation ?? null
+        const continuation = parameters.continuation
+        const httpsAgent = parameters.httpsAgent
+        const request_data = await requester.requestHashtagPage({geoLocation: geoLocation, continuation: continuation, httpsAgent: httpsAgent });
         return this.parse_new_html(request_data.data, continuation);
     }
 
